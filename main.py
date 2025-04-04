@@ -148,5 +148,12 @@ class SeatBookingGUI:
         self.status_var = tk.StringVar()
         status_label = ttk.Label(self.main_frame, textvariable=self.status_var, wraplength=600)
         status_label.grid(row=2, column=0, columnspan=2, pady=10)
+# Main function to run the application
+def main():
+    root = tk.Tk()
+    app = SeatBookingGUI(root)
+    root.mainloop()
 
+if __name__ == "__main__":
+    main()
 
