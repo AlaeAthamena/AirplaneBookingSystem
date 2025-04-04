@@ -81,6 +81,72 @@ class SeatBookingSystem:
             # Select the new seat
             self.selected_seat = (row, col)
             return self.get_seat_name(row, col)
+# Class to handle the GUI for the seat booking system
+class SeatBookingGUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Seat Booking System")
+        self.booking_system = SeatBookingSystem()
 
+        # Set window size and position
+        window_width = 1200
+        window_height = 600
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+        # Create menu, widgets, and seating display
+        self.create_menu()
+        self.create_widgets()
+        self.create_seating_display()
+
+        # Store the previously selected button to reset its colors
+        self.previously_selected_button = None
+
+    # Function to create menu bar options
+    def create_menu(self):
+        menubar = tk.Menu(self.root)
+        self.root.config(menu=menubar)
+
+        operations_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Operations", menu=operations_menu)
+        operations_menu.add_command(label="Book Selected Seat", command=self.book_selected_seat)
+        operations_menu.add_command(label="Free Selected Seat", command=self.free_selected_seat)
+        operations_menu.add_command(label="Check Status", command=self.check_selected_status)
+        operations_menu.add_separator()
+        operations_menu.add_command(label="Exit", command=self.root.quit)
+
+    # Function to create UI widgets
+    def create_widgets(self):
+        # Create main frame for layout
+        self.main_frame = ttk.Frame(self.root, padding="10")
+        self.main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+        # Title label
+        title_label = ttk.Label(self.main_frame, text="Seat Booking System", font=('Helvetica', 16, 'bold'))
+        title_label.grid(row=0, column=0, columnspan=2, pady=10)
+
+        # Create a frame for buttons
+        center_frame = ttk.Frame(self.main_frame)
+        center_frame.grid(row=1, column=0, columnspan=2, pady=5)
+        menu_frame = ttk.LabelFrame(center_frame, text="Menu", padding="5")
+        menu_frame.pack(pady=5)
+
+        # Buttons for menu actions
+        ttk.Button(menu_frame, text="Book Seat", width=15, command=self.book_selected_seat).grid(row=0, column=0,
+                                                                                                 padx=3, pady=3)
+        ttk.Button(menu_frame, text="Free Seat", width=15, command=self.free_selected_seat).grid(row=0, column=1,
+                                                                                                 padx=3, pady=3)
+        ttk.Button(menu_frame, text="Check Status", width=15, command=self.check_selected_status).grid(row=1, column=0,
+                                                                                                       padx=3, pady=3)
+        ttk.Button(menu_frame, text="Exit Program", width=15, command=self.root.quit).grid(row=1, column=1, padx=3,
+                                                                                           pady=3)
+
+        # Status display
+        self.status_var = tk.StringVar()
+        status_label = ttk.Label(self.main_frame, textvariable=self.status_var, wraplength=600)
+        status_label.grid(row=2, column=0, columnspan=2, pady=10)
 
 
